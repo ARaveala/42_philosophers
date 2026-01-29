@@ -54,7 +54,7 @@ pthread_mutex_unlock
 
 ### `t_data`
 Global simulation state:
-[`init_philo.c`](./init_philo.c#L1-L80).
+[`init_philo.c`](./philo.h#L27-L22).
 ```c
 typedef struct s_data
 {
