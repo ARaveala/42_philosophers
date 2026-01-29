@@ -55,42 +55,11 @@ pthread_mutex_unlock
 ### `t_data`
 Global simulation state:
 [`init_philo.c`](./philo.h#L27-L42).
-```c
-typedef struct s_data
-{
-    t_mx            *main_fork_lock;
-    t_mx            ultima;
-    t_mx            death_lock;
-    size_t          start_time;
-    size_t          time_to_die;
-    int             death_flag;
-    int             meal_flag;
-    int             num_of_philos;
-    int             time_to_eat;
-    int             time_to_sleep;
-    int             num_of_meals;
-    int             fail_num;
-    t_philosopher   *philo;
-}   t_data;
-```
 
 ### `t_philosopher`
 Represents each philosopher thread:
 [`init_philo.c`](./philo.h#L44-L54).
 
-```c
-typedef struct s_philosopher
-{
-    size_t          last_meal;
-    int             meals;
-    pthread_t       thrd_id;
-    int             philo_id;
-    t_mx            meal_lock;
-    t_mx            *right_fork;
-    t_mx            *left_fork;
-    t_data          *data;
-}   t_philosopher;
-```
 
 ---
 
@@ -98,28 +67,6 @@ typedef struct s_philosopher
 
 [`init_philo.c`](./init_data.c#L51-L70).
 
-```c
-int set_data_mutex(t_data *data)
-{
-    int i = 0;
-
-    data->main_fork_lock = malloc(sizeof(t_mx) * data->num_of_philos);
-    if (!data->main_fork_lock)
-        return (1);
-
-    while (i < data->num_of_philos)
-    {
-        if (pthread_mutex_init(&data->main_fork_lock[i], NULL) != 0)
-            return (destroy_things(data, 1, i, 0));
-        i++;
-    }
-    if (pthread_mutex_init(&data->ultima, NULL) != 0)
-        return (destroy_things(data, 1, i, 0));
-    if (pthread_mutex_init(&data->death_lock, NULL) != 0)
-        return (destroy_things(data, 2, i, 0));
-    return (0);
-}
-```
 
 ---
 
@@ -128,37 +75,6 @@ int set_data_mutex(t_data *data)
 This function assigns fork pointers, initializes per‑philosopher mutexes, and links each philosopher to the shared data structure.
 [`init_philo.c`](./init_data.c#L97-L123).
 
-```c
-int init_philo(t_data *data)
-{
-    int i;
-    int calc;
-
-    i = -1;
-    data->philo = malloc(data->num_of_philos * sizeof(t_philosopher));
-    if (!data->philo)
-        return (destroy_things(data, 3, data->num_of_philos, 0));
-
-    while (++i < data->num_of_philos)
-    {
-        calc = (i + 1) % data->num_of_philos;
-        data->philo[i].philo_id = i + 1;
-        data->philo[i].meals = 0;
-        data->philo[i].data = data;
-        data->philo[i].right_fork = &data->main_fork_lock[i];
-        data->philo[i].left_fork = &data->main_fork_lock[calc];
-        data->philo[i].last_meal = 0;
-
-        if (pthread_mutex_init(&data->philo[i].meal_lock, NULL) != 0)
-        {
-            destroy_things(data, 4, data->num_of_philos, i);
-            free(data->philo);
-            return (1);
-        }
-    }
-    return (0);
-}
-```
 
 ---
 
