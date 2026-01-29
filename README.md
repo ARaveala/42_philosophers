@@ -54,7 +54,7 @@ pthread_mutex_unlock
 
 ### `t_data`
 Global simulation state:
-[`init_philo.c`](./philo.h#L27-L22).
+[`init_philo.c`](./philo.h#L27-L42).
 ```c
 typedef struct s_data
 {
@@ -76,6 +76,7 @@ typedef struct s_data
 
 ### `t_philosopher`
 Represents each philosopher thread:
+[`init_philo.c`](./philo.h#L44-L54).
 
 ```c
 typedef struct s_philosopher
@@ -94,6 +95,8 @@ typedef struct s_philosopher
 ---
 
 ## Fork Mutex Initialization
+
+[`init_philo.c`](./init_data.c#L51-L70).
 
 ```c
 int set_data_mutex(t_data *data)
@@ -123,6 +126,7 @@ int set_data_mutex(t_data *data)
 ## Philosopher Initialization
 
 This function assigns fork pointers, initializes per‑philosopher mutexes, and links each philosopher to the shared data structure.
+[`init_philo.c`](./init_data.c#L97-L123).
 
 ```c
 int init_philo(t_data *data)
