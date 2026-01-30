@@ -6,13 +6,13 @@
 #    By: araveala <araveala@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/11 15:26:56 by araveala          #+#    #+#              #
-#    Updated: 2024/07/31 12:56:03 by araveala         ###   ########.fr        #
+#    Updated: 2026/01/29 17:55:37 by araveala         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #-fsanitize=address
 NAME = philo
-CFLAGS = -Wall -Wextra -Werror -g -pthread $(HEADERS)
+CFLAGS = -Wall -Wextra -Werror -g -pthread 
 CFILES = main.c free_things.c utils.c user_input.c init_data.c philo.c time_utils.c
 OFILES = $(CFILES:.c=.o)
 HEADERS = -I philo.h
